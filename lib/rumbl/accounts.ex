@@ -13,18 +13,20 @@ defmodule Rumbl.Accounts do
   def authenticate_by_username_and_pass(username, given_pass) do
     user = get_user_by(username: username)
 
-    res = cond do
-      user && Pbkdf2.verify_pass(given_pass, user.password_hash) ->
-        {:ok, user}
+    res =
+      cond do
+        user && Pbkdf2.verify_pass(given_pass, user.password_hash) ->
+          {:ok, user}
 
-      user ->
-        {:error, :unauthorized}
+        user ->
+          {:error, :unauthorized}
 
-      true ->
-        Pbkdf2.no_user_verify()
-        {:error, :not_found}
-    end
-    IO.puts "RESULT #{inspect res}"
+        true ->
+          Pbkdf2.no_user_verify()
+          {:error, :not_found}
+      end
+
+    IO.puts("RESULT #{inspect(res)}")
     res
   end
 
