@@ -7,10 +7,17 @@ defmodule Rumbl.Multimedia do
   alias Rumbl.Repo
 
   alias Rumbl.Multimedia.Video
+  alias Rumbl.Multimedia.Category
   alias Rumbl.Accounts.User
 
   def list_videos do
     Repo.all(Video)
+  end
+
+  def list_alphabetical_categories do
+    Category
+    |> Category.alphabetical()
+    |> Repo.all()
   end
 
   def list_user_videos(%User{} = user) do
